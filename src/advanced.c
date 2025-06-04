@@ -49,7 +49,7 @@ int advanced_mode(int argc, char **argv) {
         char buffer[64];
         sprintf(buffer, "mkdir -p \"%s\"", name);
         system(buffer);
-        if (strcasecmp(language, "c") == 0) {
+        if (strcasecmp(language, "c") == TRUE) {
             char buffer[64];
             sprintf(buffer, "cp -r ~/.config/init/templates/c/* \"%s\"/\"%s\"/", location, name);
             system(buffer);
@@ -58,7 +58,7 @@ int advanced_mode(int argc, char **argv) {
         char buffer[64];
         sprintf(buffer, "mkdir -p \"%s\"", name);
         system(buffer);
-        if (strcasecmp(language, "c") == 0) {
+        if (strcasecmp(language, "c") == TRUE) {
             char buffer[64];
             sprintf(buffer, "cp -r ~/.config/init/templates/c/* `pwd`/\"%s\"/", name);
             system(buffer);
