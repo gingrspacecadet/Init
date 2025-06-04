@@ -9,7 +9,7 @@ Basic mode is initiated using the command `init`. It will display a faux-ui in t
 This section determines project name and location.
 
 ### === Primary Language ===
-Basic mode only allows for one language. To get more, use advanced mode.
+Only allows one language.
 
 ### === Extras ===
 These are extra addons to your project.
@@ -23,5 +23,5 @@ Instead of a ui, this mode takes in all parameters using command-line arguments.
 ### === Arguments ===
 `-n`/`--name`: the name of your project.
 `-o`/`--location`: the location of your project. If excluded, defaults to current working directory.
-`-l`/`--language`: the languages to be used in your project. Can be multiple.
+`-l`/`--language`: the language to be used in your project.
 `-e`/`--extras`: Any extras to add. Must be the final argument, as any subsequent ones are directed at the extras.
