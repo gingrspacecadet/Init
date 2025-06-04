@@ -1,13 +1,13 @@
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99
-LDFLAGS = -lncurses
+CFLAGS = -Wall -Wextra -std=c99 -Iinclude
+LDFLAGS =
 
 # Source and build configuration
 SRC_DIR = src
 OBJ_DIR = obj
 BUILD_DIR = build
-BIN = init
+BIN = app
 
 # Get all .c files and corresponding .o files
 SRCS = $(wildcard $(SRC_DIR)/*.c)
@@ -36,9 +36,4 @@ $(BUILD_DIR):
 clean:
 	@rm -rf $(OBJ_DIR) $(BUILD_DIR)
 
-install: all
-	@cp $(BUILD_DIR)/$(BIN) /usr/local/bin
-	@mkdir -p ~/.config/init
-	@cp -r templates/ ~/.config/init/
-
-.PHONY: all clean install
+.PHONY: all clean

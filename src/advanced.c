@@ -49,13 +49,25 @@ int advanced_mode(int argc, char **argv) {
         char buffer[64];
         sprintf(buffer, "mkdir -p \"%s\"", name);
         system(buffer);
+        if (strcasecmp(language, "c") == 0) {
+            char buffer[64];
+            sprintf(buffer, "cp -r ~/.config/init/templates/c/* \"%s\"/\"%s\"/", location, name);
+            system(buffer);
+        }
     } else if (name != NULL) {
         char buffer[64];
-        sprintf(buffer, "mkdir -p %s", strcat(strcat("\"", name), "\""));
+        sprintf(buffer, "mkdir -p \"%s\"", name);
         system(buffer);
+        if (strcasecmp(language, "c") == 0) {
+            char buffer[64];
+            sprintf(buffer, "cp -r ~/.config/init/templates/c/* `pwd`/\"%s\"/", name);
+            system(buffer);
+        }
     } else {
         return 1;
     }
+
+
 
     return 0;
 }
