@@ -16,7 +16,7 @@ int extras(int current, int argc, char **argv) {
 }
 
 int advanced_mode(int argc, char **argv) {
-    char *name, *location, *language;
+    char name[32] = {0}, *location = NULL, *language = NULL;
     while (current < argc) {
         if (argv[current][0] == '-') {
             largument = argv[current];
@@ -29,7 +29,7 @@ int advanced_mode(int argc, char **argv) {
         if (largument == NULL) {
             switch (gargument[1]) {
                 case 'n':
-                    name = argv[current];
+                    strcat(name, argv[current]);
                     CBREAK
                 case 'o':
                     location = argv[current];
@@ -47,11 +47,11 @@ int advanced_mode(int argc, char **argv) {
     if (name != NULL && location != NULL) {
         chdir(location);
         char buffer[64];
-        sprintf(buffer, "mkdir -p %s", name);
+        sprintf(buffer, "mkdir -p \"%s\"", name);
         system(buffer);
     } else if (name != NULL) {
         char buffer[64];
-        sprintf(buffer, "mkdir -p %s", name);
+        sprintf(buffer, "mkdir -p %s", strcat(strcat("\"", name), "\""));
         system(buffer);
     } else {
         return 1;
