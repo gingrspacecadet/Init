@@ -7,9 +7,6 @@
 #include <unistd.h>
 #include <strings.h>
 
-#define TRUE 0
-#define FALSE 1
-
 int advanced_mode(int argc, char **argv);
 
 #endif

@@ -2,6 +2,8 @@
 #include <string.h>
 #include <time.h>
 
+char cmd[256];
+
 /******************************************************************************
  * basic_mode()
  *
@@ -19,9 +21,10 @@ int basic_mode(void) {
 
     /* 2) Define top‐level sections */
     char *sections[] = {
-        "Section 1 - Menu Example",
-        "Section 2 - Text Input Example",
-        "Quit"
+        "Project Name",
+        "Project Dir",
+        "Language",
+        "Build"
     };
     int n_sec = ARRAY_SIZE(sections);
 
@@ -31,12 +34,17 @@ int basic_mode(void) {
     /* 4) Dispatch to the chosen section */
     switch (choice) {
         case 0:
-            menu_section();
+            input_section(0);
             break;
         case 1:
-            input_section();
+            input_section(1);
             break;
         case 2:
+            input_section(2);
+            break;
+        case 3:
+            build_project();
+            break;
         default:
             /* do nothing */
             break;
@@ -124,28 +132,52 @@ void menu_section(void) {
  *
  * Demonstrates how to prompt the user for arbitrary text input in ncurses.
  ******************************************************************************/
-void input_section(void) {
+/* Global variables to store inputs */
+char project_name[128] = "";
+char project_dir[128] = "";
+char project_language[128] = "";
+
+void input_section(int type) {
     clear();
 
     /* 1) Show instructions */
-    mvprintw(0, 0, "This section will ask you to type some text.");
-    mvprintw(1, 0, "After typing, press Enter. Press ESC at any time to cancel.");
-    mvprintw(2, 0, "----------------------------------------------");
+    switch (type) {
+        case 0:
+            mvprintw(0, 0, "Project name:");
+            break;
+        case 1:
+            mvprintw(0, 0, "Project dir:");
+            break;
+        case 2:
+            mvprintw(0, 0, "Project language:");
+            break;
+    }
     refresh();
 
     /* 2) Prepare a buffer and call our helper */
     char buf[128];
-    get_input("Enter your name: ", buf, sizeof(buf));
+    get_input("Enter: ", buf, sizeof(buf));
 
     /* 3) If user pressed ESC (empty string), treat as “cancel” */
     if (buf[0] == '\0') {
         mvprintw(4, 0, "No input entered or cancelled. Press any key to return...");
     } else {
-        mvprintw(4, 0, "You typed: \"%s\"", buf);
-        mvprintw(6, 0, "Press any key to return...");
+        switch (type) {
+            case 0:
+                strncpy(project_name, buf, sizeof(project_name) - 1);
+                break;
+            case 1:
+                strncpy(project_dir, buf, sizeof(project_dir) - 1);
+                break;
+            case 2:
+                strncpy(project_language, buf, sizeof(project_language) - 1);
+                break;
+        }
     }
     refresh();
-    getch();
+
+    /* Return to main menu */
+    basic_mode();
 }
 
 /******************************************************************************
@@ -229,4 +261,25 @@ void get_input(const char *prompt, char *buffer, int bufsize) {
     mvprintw(prompt_row, 0, "");
     clrtoeol();
     refresh();
+}
+
+void build_project(void) {
+    clear();
+
+    /* Check if all inputs are provided */
+    if (project_name[0] == '\0' || project_dir[0] == '\0' || project_language[0] == '\0') {
+        mvprintw(0, 0, "Error: Missing inputs. Please fill all fields before building.");
+    } else {
+        /* Construct the command */
+        snprintf(cmd, sizeof(cmd), "init -n %s -o %s -l %s", project_name, project_dir, project_language);
+
+        /* Execute the command */
+        mvprintw(0, 0, "Running command: %s", cmd);
+        refresh();
+        system(cmd);
+    }
+
+    mvprintw(2, 0, "Press any key to return...");
+    refresh();
+    getch();
 }

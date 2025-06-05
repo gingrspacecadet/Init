@@ -2,6 +2,7 @@
 #define BASIC_H
 
 #include <ncurses.h>
+#include <stdlib.h>
 
 /* Helper macro to get size of a static array */
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
@@ -16,7 +17,7 @@ int basic_mode(void);
 void menu_section(void);
 
 /* Example “sub‐mode” that asks the user for text input */
-void input_section(void);
+void input_section(int type);
 
 /* 
  * Generic helper: draw a vertical menu at (row 0, col 0) with a title, 
@@ -36,5 +37,7 @@ int draw_menu(const char *title, char *choices[], int n_choices);
  * After returning, buffer contains the user’s input (no trailing newline).
  */
 void get_input(const char *prompt, char *buffer, int bufsize);
+
+void build_project(void);
 
 #endif
